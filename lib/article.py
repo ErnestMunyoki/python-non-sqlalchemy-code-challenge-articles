@@ -1,21 +1,23 @@
+from author import Author
+from magazine import Magazine
+
 class Article:
-    all = []
+    _all = []
 
     def __init__(self, author, magazine, title):
-        from .author import author
-        from .magazine import Magazine
-
-        if not isinstace(author, Author):
+        if not isinstance(author, Author):
             raise Exception("Author must be an instance of Author")
-        if not isinstace(magazine, Magazine):
+        if not isinstance(magazine, Magazine):
             raise Exception("Magazine must be an instance of Magazine")
-        if not isinstance(title, str) or not (5 <= len(title) <=50):
-            raise Exception("Title must be a string between 5 and 50 chars")
+        if not isinstance(title, str):
+            raise Exception("Title must be a string")
+        if not (5 <= len(title) <= 50):
+            raise Exception("Title must be between 5 and 50 characters")
 
-        self.author = author 
-        self.magazine = magazine
-        self.title = title
-        Article.all.append(self)
+        self._author = author
+        self._magazine = magazine
+        self._title = title
+        Article._all.append(self)
 
     @property
     def title(self):
@@ -27,7 +29,6 @@ class Article:
 
     @author.setter
     def author(self, value):
-        from .author import Author
         if not isinstance(value, Author):
             raise Exception("Author must be an instance of Author")
         self._author = value
@@ -38,7 +39,10 @@ class Article:
 
     @magazine.setter
     def magazine(self, value):
-        from .magazine import Magazine
         if not isinstance(value, Magazine):
-            raise Exception("Magazine must be a Magazine instance")
+            raise Exception("Magazine must be an instance of Magazine")
         self._magazine = value
+
+    @classmethod
+    def all(cls):
+        return cls._all
